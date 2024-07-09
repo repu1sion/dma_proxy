@@ -539,6 +539,10 @@ static int create_channel(struct platform_device *pdev, struct dma_proxy_channel
 }
 /* Initialize the dma proxy device driver module.
  */
+
+char *channel_0 = "dma_proxy_tx";
+char *channel_1 = "dma_proxy_rx";
+
 static int dma_proxy_probe(struct platform_device *pdev)
 {
 	int rc, i;
@@ -557,8 +561,13 @@ static int dma_proxy_probe(struct platform_device *pdev)
 	/* Figure out how many channels there are from the device tree based
 	 * on the number of strings in the dma-names property
 	 */
+
+	//repu1sion
+	lp->channel_count = 2;
+#if 0
 	lp->channel_count = device_property_read_string_array(&pdev->dev,
 						 "dma-names", NULL, 0);
+#endif
 	if (lp->channel_count <= 0)
 		return 0;
 
@@ -572,10 +581,15 @@ static int dma_proxy_probe(struct platform_device *pdev)
 	if (!lp->names)
 		return -ENOMEM;
 
+	//repu1sion
+	lp->names[0] = channel_0;
+	lp->names[1] = channel_1;
+#if 0
 	rc = device_property_read_string_array(&pdev->dev, "dma-names", 
 					(const char **)lp->names, lp->channel_count);
 	if (rc < 0)
 		return rc;
+#endif
 	
 	/* Allocate the memory for the channels since the number is known.
 	 */
